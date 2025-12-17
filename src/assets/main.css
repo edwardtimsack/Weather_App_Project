@@ -1,10 +1,16 @@
 /* Global Variables */
 :root {
   /* HSL Colors for easier manipulation */
-  --color-primary-hsl: 210, 100%, 50%; /* Action User Blue */
+  --color-primary-hsl: 210, 100%, 50%;
   --color-text-hsl: 220, 10%, 90%;
   --color-bg-hsl: 220, 20%, 10%;
   --color-card-bg-hsl: 220, 20%, 15%;
+
+  /* Theme Variables */
+  --bg-image-dark: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=2070&auto=format&fit=crop');
+  --bg-image-light: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+  --text-color-dark: hsl(220, 10%, 90%);
+  --text-color-light: hsl(220, 20%, 20%);
 
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.1);
@@ -12,12 +18,28 @@
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
   --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-  
+
   --transition-speed: 0.3s;
 }
 
+/* Theme Selectors */
+[data-theme="dark"] body {
+  background: var(--bg-image-dark);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text-color-dark);
+}
+
+[data-theme="light"] body {
+  background: var(--bg-image-light);
+  color: var(--text-color-light);
+}
+
 /* Reset & Base */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -25,13 +47,19 @@
 
 body {
   font-family: var(--font-main);
-  background: linear-gradient(135deg, hsl(230, 40%, 12%), hsl(220, 30%, 8%), hsl(240, 40%, 10%));
-  color: hsl(var(--color-text-hsl));
+  /* Default fallbacks */
+  background: var(--bg-image-dark);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--text-color-dark);
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   overflow-x: hidden;
+  transition: background 0.5s ease, color 0.3s ease;
 }
 
 #app {

@@ -26,24 +26,23 @@ const weatherCondition = computed(() => {
 </script>
 
 <template>
-  <div class="weather-card glass-panel">
+  <div class="weather-card">
     <div class="card-header">
-      <h2 class="city-name">{{ weather.name }}</h2>
-      <span class="weather-icon">{{ weatherCondition.icon }}</span>
+      <h3 class="section-label">RECENT LOCATIONS</h3>
     </div>
     
-    <div class="card-body">
-      <div class="temp-container">
-        <span class="temperature">{{ Math.round(weather.temperature) }}°C</span>
-        <span class="condition">{{ weatherCondition.label }}</span>
+    <div class="card-content glass-dark">
+      <div class="location-info">
+        <h2 class="city-name">{{ weather.name }}</h2>
+        <p class="country-name">{{ weather.country || 'Cote D\'Ivoire' }}</p> <!-- Fallback as API might not provide country always -->
       </div>
       
-      <div class="details-grid">
-        <div class="detail-item">
-          <span class="label">Wind Speed</span>
-          <span class="value">{{ weather.windspeed }} km/h</span>
+      <div class="weather-info">
+        <div class="main-weather">
+          <span class="weather-icon">{{ weatherCondition.icon }}</span>
+          <span class="temperature">{{ Math.round(weather.temperature) }}<span class="degree">°C</span></span>
         </div>
-        <!-- Expandable for future props like humidity -->
+        <p class="real-feel">RealFeel® {{ Math.round(weather.temperature + 2) }}°</p>
       </div>
     </div>
   </div>
@@ -51,86 +50,90 @@ const weatherCondition = computed(() => {
 
 <style scoped>
 .weather-card {
-  padding: 2rem;
   width: 100%;
-  max-width: 400px;
-  animation: slideUp 0.5s ease-out;
-  color: white;
+  max-width: 340px; /* Card size from image */
+  text-align: left;
+  animation: fadeIn 0.5s ease;
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.glass-dark {
+  background: rgba(30, 30, 30, 0.6); /* Darker translucent background */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.25rem;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.glass-dark:hover {
+  transform: translateY(-2px);
+  background: rgba(30, 30, 30, 0.7);
+}
+
+.location-info {
+  margin-bottom: 1.5rem;
 }
 
 .city-name {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 400; /* Regular weight */
   margin: 0;
+  line-height: 1.2;
+}
+
+.country-name {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.25rem;
+}
+
+/* Layout for bottom section */
+.weather-info {
+  margin-top: auto;
+}
+
+.main-weather {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .weather-icon {
-  font-size: 3rem;
-}
-
-.temp-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
+  font-size: 2.5rem; /* Large icon */
 }
 
 .temperature {
-  font-size: 4rem;
-  font-weight: 800;
+  font-size: 2.5rem;
+  font-weight: 300; /* Thin/Light */
   line-height: 1;
-  background: linear-gradient(to bottom, #fff, #a5b4fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-.condition {
-  font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-top: 0.5rem;
+.degree {
+  font-size: 1.5rem;
+  vertical-align: top;
+  margin-left: 2px;
 }
 
-.details-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+.real-feel {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  text-align: center;
-}
-
-.label {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.value {
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 </style>
